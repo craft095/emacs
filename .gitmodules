@@ -1,0 +1,9 @@
+[submodule "markdown-mode"]
+	path = markdown-mode
+	url = git://jblevins.org/git/markdown-mode.git
+[submodule "el-monokai-theme"]
+	path = el-monokai-theme
+	url = https://github.com/lvillani/el-monokai-theme
+[submodule "haskell-mode"]
+	path = haskell-mode
+	url = https://github.com/haskell/haskell-mode
