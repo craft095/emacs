@@ -21,7 +21,7 @@
 ;(add-hook 'js2-mode-hook 'highlight-indentation-mode)
 
 ;; Markdown Mode
-(autoload 'markdown-mode "~/.emacs.d/markdown-mode/markdown-mode"
+(autoload 'markdown-mode "~/src/emacs/markdown-mode/markdown-mode"
    "Major mode for editing Markdown files" t)
 (set 'markdown-enable-math t)
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
@@ -39,7 +39,10 @@
 ;;(when (not (package-installed-p 'haskell-mode))
 ;;  (package-install 'haskell-mode))
 
-(load "~/.emacs.d/haskell-mode/haskell-site-file")
+;; (load "~/src/emacs/haskell-mode/haskell-site-file")
+(add-to-list 'load-path "~/src/emacs/haskell-mode/")
+(require 'haskell-mode-autoloads)
+(add-to-list 'Info-default-directory-list "~/lib/emacs/haskell-mode/")
 
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 ;;(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
@@ -54,7 +57,7 @@
 ;; end of Haskell Mode
 
 ;; Monokai
-(load-file "~/.emacs.d/el-monokai-theme/monokai-theme.el")
+(load-file "~/src/emacs/el-monokai-theme/monokai-theme.el")
 
 ;; IDO
 (require 'ido)
@@ -95,6 +98,36 @@
       (message "Opening file...")
     (message "Aborting")))
 
+;; Vertical IDO
+(setq ido-decorations                                                      ; Make ido-mode display vertically
+      (quote
+       ("\n-> "           ; Opening bracket around prospect list
+        ""                ; Closing bracket around prospect list
+        "\n   "           ; separator between prospects
+        "\n   ..."        ; appears at end of truncated list of prospects
+        "["               ; opening bracket around common match string
+        "]"               ; closing bracket around common match string
+        " [No match]"     ; displayed when there is no match
+        " [Matched]"      ; displayed if there is a single match
+        " [Not readable]" ; current diretory is not readable
+        " [Too big]"      ; directory too big
+        " [Confirm]")))   ; confirm creation of new file or buffer
+
+(add-hook 'ido-setup-hook                                                  ; Navigate ido-mode vertically
+          (lambda ()
+            (define-key ido-completion-map [down] 'ido-next-match)
+            (define-key ido-completion-map [up] 'ido-prev-match)
+            (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
+            (define-key ido-completion-map (kbd "C-p") 'ido-prev-match)))
+
+;; Write backup files to own directory http://whattheemacsd.com/init.el-02.html
+(setq backup-directory-alist
+      `(("." . ,(expand-file-name
+                 (concat user-emacs-directory "backups")))))
+
+;; Make backups of files, even when they're in version control
+(setq vc-make-backup-files t)
+
 ;;-------- VIM's *
 ;;(defun my-isearch-word-at-point ()
 ;;  (interactive)
@@ -120,6 +153,18 @@
 ;;
 ;;(add-hook 'isearch-mode-hook 'my-isearch-yank-word-hook)
 ;;(global-set-key (kbd "C-*") 'my-isearch-word-at-point)
+
+;; Create Cyrillic-CP1251 Language Environment menu item
+;;(set-language-info-alist
+;;"Cyrillic-CP1251" `((charset cyrillic-iso8859-5)
+;;(coding-system cp1251)
+;;(coding-priority cp1251)
+;;(input-method . "cyrillic-jcuken")
+;;(features cyril-util)
+;;(unibyte-display . cp1251)
+;;(sample-text . "Russian (Русский) Здравствуйте!")
+;;(documentation . "Support for Cyrillic CP1251."))
+;;'("Cyrillic"))
 
 ;;----------------
 (custom-set-variables
