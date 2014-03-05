@@ -6,8 +6,17 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 
+(global-linum-mode 1) ; display line numbers in margin. Emacs 23 only.
+
 ;; Font sets
 (set-default-font "DejaVu Sans Mono 14")
+
+(global-set-key (kbd "M-<up>") 'windmove-up)
+(global-set-key (kbd "M-<down>") 'windmove-down)
+(global-set-key (kbd "M-<left>") 'windmove-left)
+(global-set-key (kbd "M-<right>") 'windmove-right)
+
+(setq windmove-wrap-around t)
 
 ;; Highlight indentation
 ;(load "~/.emacs.d/Highlight-Indentation-for-Emacs/highlight-indentation.el")
